@@ -1,6 +1,6 @@
 {
   "name": "victory-tree",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "victory-tree",
   "main": "index.js",
   "dependencies": {
