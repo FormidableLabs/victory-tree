@@ -1,10 +1,10 @@
 'use strict';
 
-import React from 'react/addons';
-import VictoryTree from '../src/victory-tree';
-import d3 from 'd3'
+var React = require('react/addons');
+var VictoryTree = require('../src/victory-tree');
+var d3 = require('d3');
 
-const App = React.createClass({
+var App = React.createClass({
   getInitialState: function() {
     return {
       height: 2000,
@@ -14,8 +14,16 @@ const App = React.createClass({
   node: function(node, index) {
     return (
       <g key={index} transform={'translate(' + node.y + ',' + node.x + ')'}>
-        <circle r={3}/>
-        <text textAnchor={'start'}>{node.name}</text>
+        <circle r={node.children ? 3 : 1}/>
+        <text
+          textAnchor={node.children ? 'end' : 'start'}
+          dy={3}
+          dx={node.children ? -8 : 8}
+          style={{
+            "fontFamily": "Helvetica",
+            "fontSize": "10px"
+          }}
+        >{node.name}</text>
       </g>
     )
   },
@@ -50,7 +58,7 @@ const App = React.createClass({
   }
 });
 
-const content = document.getElementById('content');
+var content = document.getElementById('content');
 
 /* go get the example data */
 
