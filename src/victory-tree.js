@@ -33,7 +33,7 @@ var VictoryTree = React.createClass({
       var nodes = d3Tree.nodes(this.props.data);
       var links = d3Tree.links(nodes);
       return (
-        <g>
+        <g transform={this.props.transform}>
           {this.drawNodes(nodes)}
           {this.drawLinks(links)}
         </g>

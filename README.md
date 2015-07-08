@@ -1,4 +1,4 @@
-#VictoryTree
+#Tree
 
 [Victory](https://www.npmjs.com/package/victory) is a ReactJS based data visualization library.
 
@@ -7,23 +7,31 @@ victory-tree is a tree layout component powered by the math behind d3.layout.tre
 ### Example Usage
 
 ```
+var React = require("react");
+
+var Group = require("victory-group");
+var Circle = require("victory-circle");
+var Text = require("victory-text");
+var Tree = require("victory-tree");
+
 var Visualization = React.createClass({
   getInitalState: function () {
     return {
-      height:
+      height: "2000px",
+      width: "3000px"
     }
   },
   node: function (node) {
     return (
-      <VictoryGroup {...node}>
-        <VictoryCircle/>
-        <VictoryText/>
-      </VictoryGroup>
+      <Group {...node}>
+        <Circle r={node.foo} />
+        <Text content={node.bar} />
+      </Group>
     )
   },
   link: function (link) {
     return (
-      <VictoryPath d={link.diagonal}/>
+      <Path d={link.diagonal}/>
     )
   },
   render: function () {
@@ -32,14 +40,12 @@ var Visualization = React.createClass({
         style={{"border": "2px solid black", "margin": "20px"}}
         width={this.state.svgWidth}
         height={this.state.svgHeight}>
-        <g transform={"translate(100,0)"}>
-          <VictoryTree
+          <Tree
             data={fooArrayOfLinksAndNodes}
             node={this.node}
             link={this.link}
+            transform={"translate(100,0)"}
           />
-          </VictoryTree>
-        </g>
       </svg>
     );
   }
