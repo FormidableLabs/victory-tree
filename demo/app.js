@@ -15,13 +15,20 @@ const App = React.createClass({
     return (
       <g key={index} transform={'translate(' + node.y + ',' + node.x + ')'}>
         <circle r={3}/>
-        <text textAnchor={"start"}> {node.name} </text>
+        <text textAnchor={'start'}>{node.name}</text>
       </g>
     )
   },
   link: function(link, diagonal, index) {
     return (
-      <path key={index} d={diagonal(link)}/>
+      <path
+        key={index}
+        d={diagonal(link)}
+        style={{
+          'fill': 'none',
+          'stroke': 'darkgrey',
+          'strokeWidth': '.4px'
+        }}/>
     )
   },
   render: function() {

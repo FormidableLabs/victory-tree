@@ -7,7 +7,7 @@ victory-tree is a tree layout component powered by the math behind d3.layout.tre
 To see it in action:
 
 `$ cd node_modules/victory-tree`
-`$ gulp
+`$ gulp`
 
 ### Example Usage
 Note that while the node and link properties return svg, they could return React components.
