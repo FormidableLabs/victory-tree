@@ -1,12 +1,11 @@
 /* eslint no-unused-vars:0 */
 
-var d3 = require("d3");
-var React = require("react");
+var d3 = require('d3');
+var React = require('react');
 
 var VictoryTree = React.createClass({
-    _d3Tree: d3.layout.tree().size()
-    drawLinks: function (links) {
-      var linkComponents = links.map(function (link, index) {
+    drawLinks: function(links) {
+      var linkComponents = links.map(function(link, index) {
         return (
           this.props.link(link)
         )
@@ -15,15 +14,16 @@ var VictoryTree = React.createClass({
         {linkComponents}
       </g>)
     },
-    drawNodes: function (nodes) {
-      var nodeComponents = nodes.map(function (node, index) {
+    drawNodes: function(nodes) {
+      var nodeComponents = nodes.map(function(node, index) {
         return (
           this.props.node(node)
         )
       })
-      return (<g>{nodeComponents}</g>;
+      return (<g>{nodeComponents}</g>)
     },
     render: function() {
+      // todo - check for changes in width height in componentWillRecieveProps
       var d3Tree = d3.layout.tree().size(
         [
           this.props.svgHeight,
