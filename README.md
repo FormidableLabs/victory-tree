@@ -85,4 +85,4 @@ where fooArrayOfLinksAndNodes follows the [d3 hierarchy format](https://github.c
 }
 ```
 
-Flare data (try an `http get`!): `http://www.mocky.io/v2/559cc347d797ef9a2055a59a`
+Flare data:

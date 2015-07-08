@@ -2,35 +2,37 @@
 
 import React from 'react/addons';
 import VictoryTree from '../src/victory-tree';
-import request from 'request'
+import d3 from 'd3'
 
 const App = React.createClass({
-  getInitalState: function() {
+  getInitialState: function() {
     return {
-      height: '2000px',
-      width: '3000px'
+      height: 2000,
+      width: 3000
     }
   },
-  node: function(node) {
+  node: function(node, index) {
     return (
-      <g>
-        <circle r={node.foo}/>
-        <text> {node.bar} </text>
+      <g key={index} transform={'translate(' + node.y + ',' + node.x + ')'}>
+        <circle r={3}/>
+        <text textAnchor={"start"}> {node.name} </text>
       </g>
     )
   },
-  link: function(link) {
+  link: function(link, diagonal, index) {
     return (
-      <path d={link.diagonal}/>
+      <path key={index} d={diagonal(link)}/>
     )
   },
   render: function() {
     return (
       <svg
         style={{'border': '2px solid black', 'margin': '20px'}}
-        width={this.state.svgWidth}
-        height={this.state.svgHeight}>
+        width={this.state.width}
+        height={this.state.height}>
           <VictoryTree
+            svgHeight={this.state.height}
+            svgWidth={this.state.width}
             data={this.props.data}
             node={this.node}
             link={this.link}
@@ -44,10 +46,10 @@ const App = React.createClass({
 const content = document.getElementById('content');
 
 /* go get the example data */
-request('http://www.mocky.io/v2/559cc347d797ef9a2055a59a', function (error, response, body) {
-  if (!error && response.statusCode === 200 || "200") {
-    console.log("Flare data: ", body)
-    React.render(<App data={body}/>, content)
-  }
-})
 
+d3.json('https://rawgit.com/mbostock/1093025/raw/a05a94858375bd0ae023f6950a2b13fac5127637/flare.json', function(error, json) {
+  if (error) {
+    return console.warn(error);
+  }
+  React.render(<App data={json}/>, content)
+});
