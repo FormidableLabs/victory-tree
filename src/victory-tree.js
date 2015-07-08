@@ -3,8 +3,27 @@
 var d3 = require("d3");
 var React = require("react");
 
-var Tree = React.createClass({
-    getInitialState: function () {
+var VictoryTree = React.createClass({
+    _d3Tree: d3.layout.tree().size()
+    drawLinks: function (links) {
+      var linkComponents = links.map(function (link, index) {
+        return (
+          this.props.link(link)
+        )
+      })
+      return (<g>
+        {linkComponents}
+      </g>)
+    },
+    drawNodes: function (nodes) {
+      var nodeComponents = nodes.map(function (node, index) {
+        return (
+          this.props.node(node)
+        )
+      })
+      return (<g>{nodeComponents}</g>;
+    },
+    render: function() {
       var d3Tree = d3.layout.tree().size(
         [
           this.props.svgHeight,
@@ -13,39 +32,13 @@ var Tree = React.createClass({
       );
       var nodes = d3Tree.nodes(this.props.data);
       var links = d3Tree.links(nodes);
-
-      return {
-        nodes: nodes,
-        links: links
-      }
-    },
-    drawLinks: function () {
-      var links = this.state.links.map(function (link, index) {
-        console.log(link)
-        return (
-          this.props.linkTemplate(link)
-        )
-      })
-      return (<g>
-        {links}
-      </g>)
-    },
-    drawNodes: function () {
-      var nodes = this.state.nodes.map(function (node, index) {
-        return (
-          this.props.nodeTemplate(node)
-        )
-      })
-      return (<g>{nodes}</g>;
-    },
-    render: function() {
       return (
         <g>
-          {this.drawNodes()}
-          {this.drawLinks()}
+          {this.drawNodes(nodes)}
+          {this.drawLinks(links)}
         </g>
       )
     }
 });
 
-module.exports = Tree;
+module.exports = VictoryTree;
