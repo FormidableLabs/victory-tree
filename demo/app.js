@@ -31,8 +31,8 @@ const App = React.createClass({
         width={this.state.width}
         height={this.state.height}>
           <VictoryTree
-            svgHeight={this.state.height}
-            svgWidth={this.state.width}
+            height={this.state.height}
+            width={this.state.width}
             data={this.props.data}
             node={this.node}
             link={this.link}

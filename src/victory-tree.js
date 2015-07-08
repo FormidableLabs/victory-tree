@@ -29,8 +29,8 @@ var VictoryTree = React.createClass({
       // todo - check for changes in width height in componentWillRecieveProps
       var d3Tree = d3.layout.tree().size(
         [
-          this.props.svgHeight,
-          this.props.svgWidth
+          this.props.height,
+          this.props.width
         ]
       );
       var nodes = d3Tree.nodes(this.props.data);
