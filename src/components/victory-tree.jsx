@@ -49,4 +49,46 @@ class VictoryTree extends React.Component {
     }
 };
 
+VictoryTree.propTypes = {
+  node: React.PropTypes.func,
+  link: React.PropTypes.func,
+};
+
+VictoryTree.defaultProps = {
+  link: (link, diagonal, index) => {
+    const styles = {
+      path: {
+        "fill": "none",
+        "stroke": "darkgrey",
+        "strokeWidth": ".4px"
+      },
+    };
+    return (
+      <path
+        key={index}
+        d={diagonal(link)}
+        style={[styles.path]}/>
+    )
+  },
+  node: (node, index) => {
+    const styles = {
+      text: {
+        "fontFamily": "Helvetica",
+        "fontSize": "10px"
+      }
+    };
+    return (
+      <g key={index} transform={"translate(" + node.y + "," + node.x + ")"}>
+        <circle r={node.children ? 3 : 1}/>
+        <text
+          textAnchor={node.children ? "end" : "start"}
+          dy={3}
+          dx={node.children ? -8 : 8}
+          style={[styles.text]}
+        >{node.name}</text>
+      </g>
+    )
+  }
+};
+
 export default VictoryTree;

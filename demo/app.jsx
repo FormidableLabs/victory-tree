@@ -16,44 +16,13 @@ class App extends React.Component {
   }
   getStyles() {
     return {
-      text: {
-        "fontFamily": "Helvetica",
-        "fontSize": "10px"
-      },
-      path: {
-        "fill": "none",
-        "stroke": "darkgrey",
-        "strokeWidth": ".4px"
-      },
       svg: {
         "border": "2px solid black",
         "margin": "20px"
       }
     };
   }
-  node(node, index) {
-    const styles = this.getStyles();
-    return (
-      <g key={index} transform={"translate(" + node.y + "," + node.x + ")"}>
-        <circle r={node.children ? 3 : 1}/>
-        <text
-          textAnchor={node.children ? "end" : "start"}
-          dy={3}
-          dx={node.children ? -8 : 8}
-          style={[styles.text]}
-        >{node.name}</text>
-      </g>
-    )
-  }
-  link(link, diagonal, index) {
-    const styles = this.getStyles();
-    return (
-      <path
-        key={index}
-        d={diagonal(link)}
-        style={[styles.path]}/>
-    )
-  }
+
   render() {
     const styles = this.getStyles();
     return (
@@ -63,10 +32,8 @@ class App extends React.Component {
         height={this.state.height}>
           <VictoryTree
             height={this.state.height}
-            width={this.state.width}
+            width={this.state.width-300 /* padding niceness tbd */}
             data={this.props.data}
-            node={this.node.bind(this)}
-            link={this.link.bind(this)}
             transform={"translate(100,0)"}
           />
       </svg>
