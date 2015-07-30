@@ -5,14 +5,14 @@
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/formidable-labs/victory-tree.git"
+    "url": "https://github.com/FormidableLabs/victory-tree.git"
   },
   "author": "Colin Megill",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/formidable-labs/victory-tree/issues"
+    "url": "https://github.com/FormidableLabs/victory-tree/issues"
   },
-  "homepage": "https://github.com/formidable-labs/victory-tree",
+  "homepage": "https://github.com/FormidableLabs/victory-tree",
   "scripts": {
     "prepublish": "npm run build",
     "clean-dist": "rimraf dist",
