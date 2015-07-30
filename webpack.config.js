@@ -1,64 +1,55 @@
-'use strict';
+"use strict";
 
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require("webpack");
+var path = require("path");
+var meta = require("./meta");
 
 module.exports = {
-
-  output: {
-    path: __dirname,
-    filename: 'main.js',
-    publicPath: '/assets/'
-  },
-
   cache: true,
-  debug: false,
-  devtool: false,
-  entry: [
-    './demo/app.js'
+  entry: path.join(__dirname, "src/index.js"),
+  externals: [
+    {
+      "react": {
+        root: "React",
+        commonjs2: "react",
+        commonjs: "react",
+        amd: "react"
+      }
+    }
   ],
-
-  stats: {
-    colors: true,
-    reasons: true
+  output: {
+    path: path.join(__dirname, "dist"),
+    filename: meta.FILE_NAME + ".min.js",
+    library: meta.LIB_NAME,
+    libraryTarget: "umd"
   },
-
   resolve: {
-    extensions: ['', '.js']
+    extensions: ["", ".js", ".jsx"]
   },
-
   module: {
-    preLoaders: [{
-      test: /\.js$/,
-      exclude: [/node_modules/,/dist/],
-      loader: 'eslint-loader'
-    }],
-    loaders: [{
-      test: /\.js$/,
-      exclude: [/node_modules/],
-      loader: 'babel-loader'
-    }, {
-      test: /\.css$/,
-      loader: 'style-loader!css-loader'
-    }, {
-      test: /\.(png|jpg)$/,
-      loader: 'url-loader?limit=8192'
-    }, {
-      test: /\.json$/,
-      loader: 'json-loader'
-    }]
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: [/node_modules/],
+        loader: "babel-loader?stage=0"
+      }, {
+        test: /\.(png|jpg)$/,
+        loader: "url-loader?limit=8192"
+      }
+    ]
   },
-
-  node: {
-    console: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
-
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.DefinePlugin({
+      // Signal production, so that webpack removes non-production code that
+      // is in condtionals like: `if (process.env.NODE_ENV === "production")`
+      "process.env.NODE_ENV": JSON.stringify("production")
+    }),
+    new webpack.SourceMapDevToolPlugin("[file].map")
   ]
-
 };

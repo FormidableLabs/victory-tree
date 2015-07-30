@@ -1,21 +1,26 @@
 /* eslint no-unused-vars:0 */
 
-var d3 = require('d3');
-var React = require('react');
+import d3 from "d3";
+import React from "react";
+import Radium from "radium";
 
-var VictoryTree = React.createClass({
-    diagonal: d3.svg.diagonal().projection(
-      function(d) { return [d.y, d.x]; }
-    ),
-    drawNodes: function(nodes) {
+@Radium
+class VictoryTree extends React.Component {
+    constructor(props) {
+      super(props);
+      this.diagonal = d3.svg.diagonal().projection(
+        function(d) { return [d.y, d.x]; }
+      );
+    }
+    drawNodes(nodes) {
       var nodeComponents = nodes.map((node, index) => {
         return (
           this.props.node(node, index)
         )
       })
       return (<g>{nodeComponents}</g>)
-    },
-    drawLinks: function(links) {
+    }
+    drawLinks(links) {
       var linkComponents = links.map((link, index) => {
         return (
           this.props.link(link, this.diagonal, index)
@@ -24,8 +29,8 @@ var VictoryTree = React.createClass({
       return (<g>
         {linkComponents}
       </g>)
-    },
-    render: function() {
+    }
+    render() {
       // todo - check for changes in width height in componentWillRecieveProps
       var d3Tree = d3.layout.tree().size(
         [
@@ -42,6 +47,6 @@ var VictoryTree = React.createClass({
         </g>
       )
     }
-});
+};
 
-module.exports = VictoryTree;
+export default VictoryTree;
