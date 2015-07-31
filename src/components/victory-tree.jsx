@@ -12,10 +12,14 @@ class VictoryTree extends React.Component {
         function(d) { return [d.y, d.x]; }
       );
     }
+    handleNodeClick(node) {
+      console.log(node)
+    }
     drawNodes(nodes) {
+      var root = nodes[0];
       var nodeComponents = nodes.map((node, index) => {
         return (
-          this.props.node(node, index)
+          this.props.node(node, index, this.handleNodeClick.bind(this, node))
         )
       })
       return (<g>{nodeComponents}</g>)
@@ -39,6 +43,7 @@ class VictoryTree extends React.Component {
         ]
       );
       var nodes = d3Tree.nodes(this.props.data);
+      console.log(nodes)
       var links = d3Tree.links(nodes);
       return (
         <g transform={this.props.transform}>
@@ -70,7 +75,7 @@ VictoryTree.defaultProps = {
         style={[styles.path]}/>
     )
   },
-  node: (node, index) => {
+  node: (node, index, clickHandler) => {
     const styles = {
       text: {
         "fontFamily": "Helvetica",
@@ -78,7 +83,11 @@ VictoryTree.defaultProps = {
       }
     };
     return (
-      <g key={index} transform={"translate(" + node.y + "," + node.x + ")"}>
+      <g
+        key={index}
+        transform={"translate(" + node.y + "," + node.x + ")"}
+        onClick={clickHandler}
+        >
         <circle r={node.children ? 3 : 1}/>
         <text
           textAnchor={node.children ? "end" : "start"}

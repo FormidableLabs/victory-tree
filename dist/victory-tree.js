@@ -157,6 +157,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	;
 	
+	VictoryTree.propTypes = {
+	  node: _react2["default"].PropTypes.func,
+	  link: _react2["default"].PropTypes.func
+	};
+	
+	VictoryTree.defaultProps = {
+	  link: function link(_link, diagonal, index) {
+	    var styles = {
+	      path: {
+	        "fill": "none",
+	        "stroke": "darkgrey",
+	        "strokeWidth": ".4px"
+	      }
+	    };
+	    return _react2["default"].createElement("path", {
+	      key: index,
+	      d: diagonal(_link),
+	      style: [styles.path] });
+	  },
+	  node: function node(_node, index) {
+	    var styles = {
+	      text: {
+	        "fontFamily": "Helvetica",
+	        "fontSize": "10px"
+	      }
+	    };
+	    return _react2["default"].createElement(
+	      "g",
+	      { key: index, transform: "translate(" + _node.y + "," + _node.x + ")" },
+	      _react2["default"].createElement("circle", { r: _node.children ? 3 : 1 }),
+	      _react2["default"].createElement(
+	        "text",
+	        {
+	          textAnchor: _node.children ? "end" : "start",
+	          dy: 3,
+	          dx: _node.children ? -8 : 8,
+	          style: [styles.text]
+	        },
+	        _node.name
+	      )
+	    );
+	  }
+	};
+	
 	exports["default"] = VictoryTree;
 	module.exports = exports["default"];
 
