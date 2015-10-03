@@ -35,23 +35,31 @@ class VictoryTreeNode extends React.Component {
     }
 
     renderChild(child, i) {
+      // recursive component!
       var Node = this.constructor;
       var idx= this.props.index + i + 1;
       return (
-        <Node data={child} depth={this.props.depth+1} index={idx} key={idx} handleClick={this.props.handleClick} />
+        <Node 
+          data={child} 
+          depth={this.props.depth + 1} 
+          index={idx} 
+          key={idx}
+          handleClick={this.props.handleClick} />
       );
     }
 
     renderChildren() {
-      if(!this.state.opened || !this.props.data.children || !this.props.data.children.length) {
-        return null;
+      var children;
+      if (!this.state.opened || !this.props.data.children || !this.props.data.children.length) {
+        children = null;
+      } else {
+        children = (
+          <g>
+            {this.props.data.children.map(this.renderChild.bind(this))}
+          </g>        
+        )
       }
-
-      return (
-        <g>
-          {this.props.data.children.map(this.renderChild.bind(this))}
-        </g>
-      );
+      return children;
     }
 
     render() {
@@ -61,7 +69,6 @@ class VictoryTreeNode extends React.Component {
           onClick={this.handleClick.bind(this)}
           style={{cursor: 'pointer'}}
           >
-
           <g
             transform={"translate(" + this.props.data.y + "," + this.props.data.x + ")"}>
             {this.renderNode()}
