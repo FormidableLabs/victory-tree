@@ -3,6 +3,7 @@
 import d3 from "d3";
 import React from "react";
 import Radium from "radium";
+import VictoryTreeNode from "./victory-tree-node";
 
 @Radium
 class VictoryTree extends React.Component {
@@ -15,25 +16,7 @@ class VictoryTree extends React.Component {
     handleNodeClick(node) {
       console.log(node)
     }
-    drawNodes(nodes) {
-      var root = nodes[0];
-      var nodeComponents = nodes.map((node, index) => {
-        return (
-          this.props.node(node, index, this.handleNodeClick.bind(this, node))
-        )
-      })
-      return (<g>{nodeComponents}</g>)
-    }
-    drawLinks(links) {
-      var linkComponents = links.map((link, index) => {
-        return (
-          this.props.link(link, this.diagonal, index)
-        )
-      })
-      return (<g>
-        {linkComponents}
-      </g>)
-    }
+
     render() {
       // todo - check for changes in width height in componentWillRecieveProps
       var d3Tree = d3.layout.tree().size(
@@ -42,62 +25,27 @@ class VictoryTree extends React.Component {
           this.props.width
         ]
       );
-      var nodes = d3Tree.nodes(this.props.data);
-      console.log(nodes)
-      var links = d3Tree.links(nodes);
+
+      var root = d3Tree.nodes(this.props.data).filter(node => { return node.depth === 0 })[0];
+      var Node = this.props.node;
+
+      console.log(Node)
+      
       return (
         <g transform={this.props.transform}>
-          {this.drawNodes(nodes)}
-          {this.drawLinks(links)}
+          <Node data={root} depth={0} index={0} handleClick={this.handleNodeClick} />
         </g>
       )
     }
 };
 
-VictoryTree.propTypes = {
-  node: React.PropTypes.func,
-  link: React.PropTypes.func,
-};
+// VictoryTree.propTypes = {
+//   node: React.PropTypes.func,
+//   link: React.PropTypes.func,
+// };
 
 VictoryTree.defaultProps = {
-  link: (link, diagonal, index) => {
-    const styles = {
-      path: {
-        "fill": "none",
-        "stroke": "darkgrey",
-        "strokeWidth": ".4px"
-      },
-    };
-    return (
-      <path
-        key={index}
-        d={diagonal(link)}
-        style={[styles.path]}/>
-    )
-  },
-  node: (node, index, clickHandler) => {
-    const styles = {
-      text: {
-        "fontFamily": "Helvetica",
-        "fontSize": "10px"
-      }
-    };
-    return (
-      <g
-        key={index}
-        transform={"translate(" + node.y + "," + node.x + ")"}
-        onClick={clickHandler}
-        >
-        <circle r={node.children ? 3 : 1}/>
-        <text
-          textAnchor={node.children ? "end" : "start"}
-          dy={3}
-          dx={node.children ? -8 : 8}
-          style={[styles.text]}
-        >{node.name}</text>
-      </g>
-    )
-  }
+  node: VictoryTreeNode
 };
 
 export default VictoryTree;
